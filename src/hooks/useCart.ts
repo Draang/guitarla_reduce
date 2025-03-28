@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { db } from "../data/db";
 import type { CartItem, Guitar } from "../types";
+const MAX_ITEMS = 5,
+  MIN_ITEMS = 1;
 export default function useCart() {
   const initialCart = (): CartItem[] => {
     const localCart = localStorage.getItem("cart");
@@ -30,13 +32,13 @@ export default function useCart() {
   }
   function increaseQuantity(item: Guitar) {
     const updatedCart = cart.map((i) =>
-      i.id === item.id && i.qty < 10 ? { ...i, qty: i.qty + 1 } : i
+      i.id === item.id && i.qty < MAX_ITEMS ? { ...i, qty: i.qty + 1 } : i
     );
     setCart(updatedCart);
   }
   function decreaseQuantity(item: Guitar) {
     const updatedCart = cart.map((i) =>
-      i.id === item.id && i.qty > 1 ? { ...i, qty: i.qty - 1 } : i
+      i.id === item.id && i.qty > MIN_ITEMS ? { ...i, qty: i.qty - 1 } : i
     );
     setCart(updatedCart);
   }
